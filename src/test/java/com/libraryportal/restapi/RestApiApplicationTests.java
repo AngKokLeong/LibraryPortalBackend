@@ -1,10 +1,10 @@
-package com.libraryportalrest;
+package com.libraryportal.restapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LibraryPortalRestApplicationTests {
+class RestApiApplicationTests {
 
 	@Test
 	void contextLoads() {
