@@ -12,7 +12,7 @@ CREATE TABLE book (
   copies int DEFAULT NULL,
   copies_available int DEFAULT NULL,
   category varchar(11) DEFAULT NULL,
-  img bytea  DEFAULT NULL
+  img text  DEFAULT NULL
 )
 /*!40101 SET character_set_client = @saved_cs_client */;
 
