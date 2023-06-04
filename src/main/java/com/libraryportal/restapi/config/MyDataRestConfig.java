@@ -7,6 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
 import com.libraryportal.restapi.entity.Book;
+import com.libraryportal.restapi.entity.Review;
 
 @Configuration
 public class MyDataRestConfig implements RepositoryRestConfigurer {
@@ -24,9 +25,12 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         };
 
         config.exposeIdsFor(Book.class);
+        config.exposeIdsFor(Review.class);
+
 
         disableHttpMethods(Book.class, config, theUnsupportedActions);
-        
+        disableHttpMethods(Review.class, config, theUnsupportedActions);
+
         cors.addMapping(config.getBasePath() + "/**")
             .allowedOrigins(theAllowedOrigins);
 
