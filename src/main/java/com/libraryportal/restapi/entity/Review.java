@@ -2,7 +2,7 @@ package com.libraryportal.restapi.entity;
 
 import java.util.Date;
 import org.hibernate.annotations.CreationTimestamp;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 @Entity
