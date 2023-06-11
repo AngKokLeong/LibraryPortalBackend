@@ -25,7 +25,7 @@ public class SecurityConfiguration {
     private String jwkSetUri = "https://dev-63388380.okta.com/oauth2/default/v1/keys";
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
         //disable cross site request forgery
         http.csrf(csrf -> csrf.disable());
@@ -47,7 +47,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public JwtDecoder jwtDecoder() {
+    JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 
