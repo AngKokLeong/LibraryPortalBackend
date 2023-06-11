@@ -12,23 +12,30 @@ import com.okta.spring.boot.oauth.Okta;
 
 import static org.springframework.security.config.Customizer.withDefaults;
 
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration {
 
+    //reference from https://developer.okta.com/blog/2017/12/18/spring-security-5-oidc
+    //https://docs.spring.io/spring-security/reference/servlet/oauth2/resource-server/jwt.html
+
+    private String jwkSetUri = "https://dev-63388380.okta.com/oauth2/default/v1/keys";
+
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
 
         //disable cross site request forgery
-        http.csrf().disable();
+        http.csrf(csrf -> csrf.disable());
+        
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/books/secure/**").authenticated())
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
 
 
-        
-        
-        
         //add CORS filters
-        http.cors();
+        http.cors(withDefaults());
 
         //Add content to negotiation strategy
         http.setSharedObject(ContentNegotiationStrategy.class, new HeaderContentNegotiationStrategy());
@@ -37,6 +44,11 @@ public class SecurityConfiguration {
         Okta.configureResourceServer401ResponseBody(http);
 
         return http.build();
+    }
+
+    @Bean
+    JwtDecoder jwtDecoder() {
+        return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 
 }
