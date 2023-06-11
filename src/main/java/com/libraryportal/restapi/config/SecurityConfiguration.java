@@ -30,9 +30,11 @@ public class SecurityConfiguration {
 
         //disable cross site request forgery
         http.csrf(csrf -> csrf.disable());
-        
+
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/books/secure/**").authenticated())
             .oauth2ResourceServer((oauth2) -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
+
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/books/**").permitAll());
 
 
         //add CORS filters
@@ -52,11 +54,5 @@ public class SecurityConfiguration {
         return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
 
-    @Bean
-    WebSecurityCustomizer webSecurityCustomizer() {
-         return (web) -> web.ignoring()
-         // Spring Security should completely ignore URLs starting with /resources/
-                 .requestMatchers("/api/books/**");
-     }
 
 }
