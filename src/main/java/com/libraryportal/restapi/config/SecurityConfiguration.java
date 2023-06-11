@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.HeaderContentNegotiationStrategy;
@@ -31,7 +32,7 @@ public class SecurityConfiguration {
         http.csrf(csrf -> csrf.disable());
         
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/books/secure/**").authenticated())
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder())));
+            .oauth2ResourceServer((oauth2) -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
 
 
         //add CORS filters
@@ -50,5 +51,12 @@ public class SecurityConfiguration {
     JwtDecoder jwtDecoder() {
         return NimbusJwtDecoder.withJwkSetUri(jwkSetUri).build();
     }
+
+    @Bean
+    WebSecurityCustomizer webSecurityCustomizer() {
+         return (web) -> web.ignoring()
+         // Spring Security should completely ignore URLs starting with /resources/
+                 .requestMatchers("/api/books/**");
+     }
 
 }
