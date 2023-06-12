@@ -9,6 +9,8 @@ import com.libraryportal.restapi.entity.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
-    Page<Review> findBookByBookId(@RequestParam("bookId") Integer bookId, Pageable pageable);
+    Page<Review> findBookReviewListByBookId(@RequestParam("bookId") Integer bookId, Pageable pageable);
     
+    Review findBookReviewByUserEmailAndBookId(String userEmail, Long bookId);
+
 }
