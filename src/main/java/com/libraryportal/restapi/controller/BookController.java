@@ -1,11 +1,14 @@
 package com.libraryportal.restapi.controller;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,7 +16,7 @@ import com.libraryportal.restapi.entity.Book;
 import com.libraryportal.restapi.service.BookService;
 import com.libraryportal.restapi.utils.ExtractJWT;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin(origins={"http://localhost:3000"}, allowCredentials = "true", allowedHeaders = {"Authorization", "Origin", "Content-Type"} )
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
@@ -34,13 +37,15 @@ public class BookController {
     }
 
     @GetMapping("/secure/ischeckout/byuser")
-    public Boolean checkoutBookByUser(@RequestHeader(value = "Authorization") String token, @RequestParam Integer bookId){
+    @CrossOrigin(methods={RequestMethod.GET})
+    public Boolean checkoutBookByUser(@RequestHeader(value = "Authorization") String token, @RequestParam Integer bookId) throws Exception{
         String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
-
+        
         return bookService.checkoutBookByUser(userEmail, bookId);
     }
 
     @GetMapping("/secure/currentloans/count")
+    @CrossOrigin(methods={RequestMethod.GET})
     public int currentLoansCount(@RequestHeader(value = "Authorization") String token){
         String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
         return bookService.currentLoansCount(userEmail);
