@@ -11,6 +11,6 @@ public interface ReviewRepository extends JpaRepository<Review, Integer> {
 
     Page<Review> findBookReviewListByBookId(@RequestParam("bookId") Integer bookId, Pageable pageable);
     
-    Review findBookReviewByUserEmailAndBookId(String userEmail, Long bookId);
+    Review findBookReviewByUserEmailAndBookId(String userEmail, Integer bookId);
 
 }
