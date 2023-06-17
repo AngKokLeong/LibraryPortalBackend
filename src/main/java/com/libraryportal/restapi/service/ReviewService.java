@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.libraryportal.restapi.dao.BookRepository;
 import com.libraryportal.restapi.dao.ReviewRepository;
 import com.libraryportal.restapi.entity.Review;
 import com.libraryportal.restapi.requestmodels.ReviewRequest;
@@ -16,12 +15,10 @@ import com.libraryportal.restapi.requestmodels.ReviewRequest;
 @Transactional
 public class ReviewService {
     
-    private BookRepository bookRepository;
     private ReviewRepository reviewRepository;
 
     @Autowired
-    public ReviewService(BookRepository bookRepository, ReviewRepository reviewRepository){
-        this.bookRepository = bookRepository;
+    public ReviewService(ReviewRepository reviewRepository){
         this.reviewRepository = reviewRepository;
     }
 
@@ -44,5 +41,15 @@ public class ReviewService {
         
         review.setDate(Date.valueOf(LocalDate.now()));
         reviewRepository.save(review);
+    }
+
+    public Boolean userReviewListed(String userEmail, Integer bookId){
+        Review validateReview = reviewRepository.findBookReviewByUserEmailAndBookId(userEmail, bookId);
+
+        if (validateReview != null){
+            return true;
+        }
+
+        return false;
     }
 }
