@@ -1,6 +1,7 @@
 package com.libraryportal.restapi.service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -10,6 +11,7 @@ import com.libraryportal.restapi.dao.BookRepository;
 import com.libraryportal.restapi.dao.CheckoutRepository;
 import com.libraryportal.restapi.entity.Book;
 import com.libraryportal.restapi.entity.Checkout;
+import com.libraryportal.restapi.responsemodels.ShelfCurrentLoansResponse;
 
 @Service
 @Transactional
@@ -58,5 +60,18 @@ public class BookService {
 
     public int currentLoansCount(String userEmail){
         return checkoutRepository.findBookCheckoutByUserEmail(userEmail).size();
+    }
+
+    public List<ShelfCurrentLoansResponse> currentLoans(String userEmail) throws Exception{
+        List<ShelfCurrentLoansResponse> shelfCurrentLoansResponses = new ArrayList<>();
+
+        List<Checkout> checkoutList = checkoutRepository.findBookCheckoutByUserEmail(userEmail);
+        List<Integer> bookIdList = new ArrayList<>();
+
+        for (Checkout i: checkoutList){
+            bookIdList.add(i.getBookId());
+        }
+
+        List<Book> books = bookRepository.findBooksByBookIds(bookIdList);
     }
 }
