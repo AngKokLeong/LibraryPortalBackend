@@ -91,7 +91,7 @@ public class BookService {
                 TimeUnit time = TimeUnit.DAYS;
 
                 long difference_In_Time = time.convert(d1.getTime() - d2.getTime(), TimeUnit.MILLISECONDS);
-                shelfCurrentLoansResponses.add(new ShelfCurrentLoansResponse(book, (int) different_In_Time));
+                shelfCurrentLoansResponses.add(new ShelfCurrentLoansResponse(book, (int) difference_In_Time));
             }
         }
 
