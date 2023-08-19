@@ -22,7 +22,7 @@ pipeline {
                     script {
                         mavenHome = tool 'Maven-Installation'
                     }
-                    sh "${mavenHome}/bin/mvn clean install -Dspring.config.name=application.dev.properties"
+                    sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
 
                     //run the npm build
                 }
