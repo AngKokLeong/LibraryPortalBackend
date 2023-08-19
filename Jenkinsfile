@@ -9,7 +9,7 @@ pipeline {
             PRODUCTION = 'master'
             PREPROD = 'preprod'
             DEVELOP = 'develop'
-            spring.config.name=''
+           
         }
 
         stages {
@@ -22,7 +22,7 @@ pipeline {
                     script {
                         mavenHome = tool 'Maven-Installation'
                     }
-                    sh "echo ${mavenHome}"
+                    sh "echo ${mavenHome} "
 
                     //run the npm build
                 }
