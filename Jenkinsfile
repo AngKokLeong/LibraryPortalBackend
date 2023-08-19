@@ -22,7 +22,7 @@ pipeline {
                     script {
                         mavenHome = tool 'Maven-Installation'
                     }
-                    sh "echo ${mavenHome} "
+                    sh "${mavenHome}/bin/mvn clean install"
 
                     //run the npm build
                 }
