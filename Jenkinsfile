@@ -9,25 +9,33 @@ pipeline {
             PRODUCTION = 'master'
             PREPROD = 'preprod'
             DEVELOP = 'develop'
+            spring.config.name=''
         }
 
         stages {
-            stage ('Checkout') {
+            
+
+            stage ('Build') {
+                
+
                 steps {
-                    checkout scm
+                    script {
+                        mavenHome = tool 'Maven-Installation'
+                    }
+                    sh "echo ${mavenHome}"
+
+                    //run the npm build
                 }
             }
 
-            /*stage ('Pre-Integration Test'){
+            /*
+            stage ('Pre-Integration Test'){
                 parallel {
 
                     stage ('Quality Test'){
                         agent any
                         steps {
                             echo 'On Quality Test'
-                            //https://eslint.org/docs/latest/use/command-line-interface#--max-warnings
-                            //purpose: to get the return value
-                            //https://www.jenkins.io/doc/pipeline/steps/workflow-durable-task-step/#sh-shell-script
                             sh 'npx eslint ./src'
                         }
                     }
@@ -70,32 +78,17 @@ pipeline {
             }
 
 
-            stage ('Build') {
+            
+            stage ('Deploy Develop'){
                 
-
-                steps {
-                    script {
-                        mavenHome = tool 'Maven-Installation'
-                    }
-                    sh "echo ${mavenHome}"
-
-                    //run the npm build
-                }
-            }
-            stage ('Push') {
-           
-
                 when {
                     anyOf {
-                        branch '${PRODUCTION}'
-                        branch '${PREPROD}'
                         branch '${DEVELOP}'
                     }
                 }
 
                 steps {
-                    echo "On Push"
-                    //push to sonatype
+                    echo "On Deploy Develop"
                 }
             }
 
