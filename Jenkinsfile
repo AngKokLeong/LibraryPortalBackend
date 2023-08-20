@@ -13,18 +13,44 @@ pipeline {
         }
 
         stages {
-            
+            stage ('Validate Project') {
+                steps {
+                    script {
+                        mavenHome = tool 'Maven-Installation'
+                    }
+                    sh "${mavenHome}/bin/mvn clean validate -Dspring.profiles.active=dev"
+                }
+            }
+            stage ('Test Project') {
+                steps {
+                    script {
+                        mavenHome = tool 'Maven-Installation'
+                    }
+                    sh "${mavenHome}/bin/mvn clean test -Dspring.profiles.active=dev"
+                }
+            }
 
             stage ('Build') {
-                
-
                 steps {
                     script {
                         mavenHome = tool 'Maven-Installation'
                     }
                     sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
+                }
+            }
 
-                    //run the npm build
+            stage ('Build PRE-PROD'){
+                when {
+                    anyOf {
+                        branch '${PREPROD}'
+                    }
+                }    
+
+                steps {
+                    script {
+                        mavenHome = tool 'Maven-Installation'
+                    }
+                    sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=preprod"
                 }
             }
 
@@ -56,68 +82,33 @@ pipeline {
                 
             }*/
 
-          
             stage ('Static Code Analysis'){
-                        steps {
-                            script {
-                            // requires SonarQube Scanner 2.8+
-                                scannerHome = tool 'SonarQube-Scanner'
-                            }
-                            withSonarQubeEnv('Sonarqube-Library-Portal-Backend') {
-                                sh "${scannerHome}/bin/sonar-scanner"
-                            }
-                        }
+                steps {
+                    script {
+                        scannerHome = tool 'SonarQube-Scanner'
+                    }
+                    withSonarQubeEnv('Sonarqube-Library-Portal-Backend') {
+                        sh "${scannerHome}/bin/sonar-scanner"
+                    }
+                }
             }
+
             stage ('Quality Gate'){
                     
-                        steps {
-                            timeout(time: 5, unit: 'MINUTES') {
-                                waitForQualityGate abortPipeline: true
-                            }
-                        }
+                steps {
+                    timeout(time: 5, unit: 'MINUTES') {
+                        waitForQualityGate abortPipeline: true
+                    }
+                }
             }
 
 
             
-            stage ('Deploy Develop'){
+            stage ('Deploy to SonarType'){
                 
-                when {
-                    anyOf {
-                        branch '${DEVELOP}'
-                    }
-                }
-
                 steps {
                     echo "On Deploy Develop"
                 }
             }
-
-            stage ('Deploy Pre-Production'){
-                
-                when {
-                    anyOf {
-                        branch '${PREPROD}'
-                    }
-                }
-
-                steps {
-                    echo "On Deploy Pre Production"
-                }
-            }
-
-            stage ('Deploy Production') {
-                
-
-                when {
-                    anyOf {
-                        branch '${PRODUCTION}'
-                    }
-                }
-
-                steps {
-                    echo "On Deploy Production"
-                }
-            }
-
         }
 }
