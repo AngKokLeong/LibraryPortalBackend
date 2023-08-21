@@ -30,7 +30,7 @@ pipeline {
                 }
             }
 
-            stage ('Build') {
+            stage ('Build Project') {
                 steps {
                     script {
                         mavenHome = tool 'Maven-Installation'
