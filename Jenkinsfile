@@ -82,7 +82,7 @@ pipeline {
                 }
             }
 
-            stage ('F: Deploy to SonarType'){
+            stage ('F: Deploy to Octopus Deploy'){
                 
                 steps {
                     echo "On Deploy Develop"
