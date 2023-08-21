@@ -53,10 +53,7 @@ pipeline {
                     script {
                         mavenHome = tool 'Maven-Installation'
                     }
-                    //sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
-                    sh(script: "${mavenHome}/bin/mvn versions:set -DnewVersion=1.0.${BUILD_NUMBER}", returnStdout: true)
-                    // Package the code
-                    sh(script: "${mavenHome}/bin/mvn package", returnStdout: true)
+                    sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
                 }
             }
 
@@ -89,7 +86,6 @@ pipeline {
             }
 
             stage ('E: SonarQube Quality Gate'){
-                    
                 steps {
                     timeout(time: 5, unit: 'MINUTES') {
                         waitForQualityGate abortPipeline: true
@@ -97,7 +93,15 @@ pipeline {
                 }
             }
 
-            stage ('F: Deploy to Octopus Deploy'){
+            stage ('F: Package Project') {
+                steps {
+                    sh(script: "${mavenHome}/bin/mvn versions:set -DnewVersion=1.0.${BUILD_NUMBER}", returnStdout: true)
+                    // Package the code
+                    sh(script: "${mavenHome}/bin/mvn package -Dspring.profiles.active=dev", returnStdout: true)
+                }
+            }
+
+            stage ('G: Deploy to Octopus Deploy'){
                 
                 steps {
                     echo "On Deploy Develop"
