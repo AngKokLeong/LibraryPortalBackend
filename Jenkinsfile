@@ -14,9 +14,9 @@ pipeline {
 
         stages {
 
-            stage ('Pre-Integration Test'){
+            stage ('A: Pre-Integration Test'){
                 parallel {
-                    stage ('Validate Project') {
+                    stage ('A1: Validate Project') {
                         steps {
                             script {
                                 mavenHome = tool 'Maven-Installation'
@@ -25,7 +25,7 @@ pipeline {
                             sh "${mavenHome}/bin/mvn clean validate -Dspring.profiles.active=dev"
                         }
                     }
-                    stage ('Test Project') {
+                    stage ('A2: Test Project') {
                         steps {
                             script {
                                 mavenHome = tool 'Maven-Installation'
@@ -37,7 +37,7 @@ pipeline {
             }
             
 
-            stage ('Build Project') {
+            stage ('B: Build Project') {
                 steps {
                     script {
                         mavenHome = tool 'Maven-Installation'
@@ -46,7 +46,7 @@ pipeline {
                 }
             }
 
-            stage ('Build PRE-PROD'){
+            stage ('C: Build PRE-PROD'){
                 when {
                     anyOf {
                         branch '${PREPROD}'
@@ -63,7 +63,7 @@ pipeline {
 
             
 
-            stage ('SonarQube Analysis'){
+            stage ('D: SonarQube Analysis'){
                 steps {
                     script {
                         scannerHome = tool 'SonarQube-Scanner'
@@ -74,7 +74,7 @@ pipeline {
                 }
             }
 
-            stage ('SonarQube Quality Gate'){
+            stage ('E: SonarQube Quality Gate'){
                     
                 steps {
                     timeout(time: 5, unit: 'MINUTES') {
@@ -83,7 +83,7 @@ pipeline {
                 }
             }
 
-            stage ('Deploy to SonarType'){
+            stage ('F: Deploy to SonarType'){
                 
                 steps {
                     echo "On Deploy Develop"
