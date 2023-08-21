@@ -53,7 +53,10 @@ pipeline {
                     script {
                         mavenHome = tool 'Maven-Installation'
                     }
-                    sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
+                    //sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
+                    sh(script: "${mavenHome}/bin/mvn versions:set -DnewVersion=1.0.${BUILD_NUMBER}", returnStdout: true)
+                    // Package the code
+                    sh(script: "${mavenHome}/bin/mvn package", returnStdout: true)
                 }
             }
 
@@ -98,7 +101,7 @@ pipeline {
                 
                 steps {
                     echo "On Deploy Develop"
-                    echo "${env.WORKSPACE}"
+                    
                     //octopusPack additionalArgs: '', includePaths: "${env.WORKSPACE}/target/randomquotes.1.0.${BUILD_NUMBER}.jar", outputPath: "${env.WORKSPACE}", overwriteExisting: false, packageFormat: 'zip', packageId: 'randomquotes', packageVersion: "1.0.${BUILD_NUMBER}", sourcePath: '', toolId: 'Default', verboseLogging: false
                     //octopusPushPackage additionalArgs: '', overwriteMode: 'FailIfExists', packagePaths: "${env.WORKSPACE}/target/randomquotes.1.0.${BUILD_NUMBER}.jar", serverId: "${ServerId}", spaceId: "${SpaceId}", toolId: 'Default'
                     //octopusPushBuildInformation additionalArgs: '', commentParser: 'GitHub', overwriteMode: 'FailIfExists', packageId: 'randomquotes', packageVersion: "1.0.${BUILD_NUMBER}", serverId: "${ServerId}", spaceId: "${SpaceId}", toolId: 'Default', verboseLogging: false, gitUrl: "${GIT_URL}", gitCommit: "${GIT_COMMIT}"
