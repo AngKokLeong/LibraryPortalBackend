@@ -13,22 +13,29 @@ pipeline {
         }
 
         stages {
-            stage ('Validate Project') {
-                steps {
-                    script {
-                        mavenHome = tool 'Maven-Installation'
+
+            stage ('Pre-Integration Test'){
+                parallel {
+                    stage ('Validate Project') {
+                        steps {
+                            script {
+                                mavenHome = tool 'Maven-Installation'
+                            }
+                            sh "echo ${mavenHome}"
+                            sh "${mavenHome}/bin/mvn clean validate -Dspring.profiles.active=dev"
+                        }
                     }
-                    sh "${mavenHome}/bin/mvn clean validate -Dspring.profiles.active=dev"
+                    stage ('Test Project') {
+                        steps {
+                            script {
+                                mavenHome = tool 'Maven-Installation'
+                            }
+                            sh "${mavenHome}/bin/mvn clean test -Dspring.profiles.active=dev"
+                        }
+                    }
                 }
             }
-            stage ('Test Project') {
-                steps {
-                    script {
-                        mavenHome = tool 'Maven-Installation'
-                    }
-                    sh "${mavenHome}/bin/mvn clean test -Dspring.profiles.active=dev"
-                }
-            }
+            
 
             stage ('Build Project') {
                 steps {
@@ -54,33 +61,7 @@ pipeline {
                 }
             }
 
-            /*
-            stage ('Pre-Integration Test'){
-                parallel {
-
-                    stage ('Quality Test'){
-                        agent any
-                        steps {
-                            echo 'On Quality Test'
-                            sh 'npx eslint ./src'
-                        }
-                    }
-                    stage ('Unit Test'){
-                        agent any
-                        steps {
-                            echo 'On Unit Test'
-                            //run the unit test
-                        }
-                    }
-                    stage ('Security Test'){
-                        agent any
-                        steps {
-                            echo 'On Security Test'
-                        }
-                    }
-                }
-                
-            }*/
+            
 
             stage ('SonarQube Analysis'){
                 steps {
