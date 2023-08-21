@@ -21,7 +21,6 @@ pipeline {
                             script {
                                 mavenHome = tool 'Maven-Installation'
                             }
-                            sh "echo ${mavenHome}"
                             sh "${mavenHome}/bin/mvn clean validate -Dspring.profiles.active=dev"
                         }
                     }
