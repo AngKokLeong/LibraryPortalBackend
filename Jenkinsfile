@@ -82,7 +82,7 @@ pipeline {
                 
             }*/
 
-            stage ('Static Code Analysis'){
+            stage ('SonarQube Analysis'){
                 steps {
                     script {
                         scannerHome = tool 'SonarQube-Scanner'
@@ -93,7 +93,7 @@ pipeline {
                 }
             }
 
-            stage ('Quality Gate'){
+            stage ('SonarQube Quality Gate'){
                     
                 steps {
                     timeout(time: 5, unit: 'MINUTES') {
@@ -102,8 +102,6 @@ pipeline {
                 }
             }
 
-
-            
             stage ('Deploy to SonarType'){
                 
                 steps {
