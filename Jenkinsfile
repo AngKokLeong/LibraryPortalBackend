@@ -60,9 +60,7 @@ pipeline {
                     }
                     sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
                     
-                    withDotNet(sdk: 'dotnet-7'){
-                        sh "dotnet --version"
-                    } 
+                    
                 }
             }
 
@@ -110,7 +108,7 @@ pipeline {
                 }
             }
 
-            stage ('G: Deploy to Octopus Deploy'){
+            stage ('G: Deploy to Nexus'){
                 //use an agent 
                 steps {
                     echo "On Deploy Develop"
