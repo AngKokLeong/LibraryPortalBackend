@@ -54,6 +54,10 @@ pipeline {
                         mavenHome = tool 'Maven-Installation'
                     }
                     sh "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev"
+                    
+                    withDotNet(sdk: 'dotnet-7'){
+                        sh "dotnet --version"
+                    } 
                 }
             }
 
@@ -102,11 +106,13 @@ pipeline {
             }
 
             stage ('G: Deploy to Octopus Deploy'){
-                
+                //use an agent 
                 steps {
                     echo "On Deploy Develop"
+
                     
-                    octopusPack additionalArgs: '', includePaths: "${env.WORKSPACE}/target/rest-api-1.0.${BUILD_NUMBER}.war", outputPath: "${env.WORKSPACE}", overwriteExisting: false, packageFormat: 'zip', packageId: 'library-portal-backend', packageVersion: "1.0.${BUILD_NUMBER}", sourcePath: '', toolId: 'octopus-deploy-cli', verboseLogging: false
+                    
+                    //octopusPack additionalArgs: '', includePaths: "${env.WORKSPACE}/target/rest-api-1.0.${BUILD_NUMBER}.war", outputPath: "${env.WORKSPACE}", overwriteExisting: false, packageFormat: 'zip', packageId: 'library-portal-backend', packageVersion: "1.0.${BUILD_NUMBER}", sourcePath: '', toolId: 'octopus-deploy-cli', verboseLogging: false
                     //octopusPushPackage additionalArgs: '', overwriteMode: 'FailIfExists', packagePaths: "${env.WORKSPACE}/target/randomquotes.1.0.${BUILD_NUMBER}.jar", serverId: "${ServerId}", spaceId: "${SpaceId}", toolId: 'Default'
                     //octopusPushBuildInformation additionalArgs: '', commentParser: 'GitHub', overwriteMode: 'FailIfExists', packageId: 'randomquotes', packageVersion: "1.0.${BUILD_NUMBER}", serverId: "${ServerId}", spaceId: "${SpaceId}", toolId: 'Default', verboseLogging: false, gitUrl: "${GIT_URL}", gitCommit: "${GIT_COMMIT}"
                     //octopusCreateRelease additionalArgs: '', cancelOnTimeout: false, channel: '', defaultPackageVersion: '', deployThisRelease: false, deploymentTimeout: '', environment: "${EnvironmentName}", jenkinsUrlLinkback: false, project: "${ProjectName}", releaseNotes: false, releaseNotesFile: '', releaseVersion: "1.0.${BUILD_NUMBER}", serverId: "${ServerId}", spaceId: "${SpaceId}", tenant: '', tenantTag: '', toolId: 'Default', verboseLogging: false, waitForDeployment: false
