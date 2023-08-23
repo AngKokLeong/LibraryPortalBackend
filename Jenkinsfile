@@ -160,10 +160,7 @@ pipeline {
 
                     sh "curl http://192.168.18.13:32004/repository/maven-releases/com/libraryportal/rest-api/1.0.${BUILD_NUMBER}/rest-api-1.0.${BUILD_NUMBER}.war -O"
 
-                    deploy adapters: [tomcat9: (url: 'http://192.168.18.13:32009', 
-                              credentialsId: 'tomcat-credential')], 
-                     war: "rest-api-1.0.${BUILD_NUMBER}.war",
-                     contextPath: 'restapi'
+                    deploy adapters: [tomcat9: (url: 'http://192.168.18.13:32009', credentialsId: 'tomcat-credential'), path: 'restapi'], war: "rest-api-1.0.${BUILD_NUMBER}.war", contextPath: 'restapi'
                 }
             }
 
