@@ -31,6 +31,8 @@ pipeline {
 
         stages {
 
+            
+
             stage ('A: Pre-Integration Test'){
                 parallel {
                     stage ('A1: Validate Project') {
@@ -108,7 +110,7 @@ pipeline {
                 }
             }
 
-            stage ('G: Deploy to Nexus'){
+            stage ('G: Push Artifacts to Nexus'){
                 //use an agent 
                 steps {
                     echo "On Deploy Develop"
