@@ -117,7 +117,7 @@ pipeline {
 
                     script {
                         pom = readMavenPom file: "pom.xml";
-                        filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
+                        filesByGlob = findFiles(glob: "target/rest-api-1.0.${BUILD_NUMBER}.${pom.packaging}");
                         echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
                         artifactPath = filesByGlob[0].path;
                         artifactExists = fileExists artifactPath;
@@ -154,15 +154,15 @@ pipeline {
 
                 }
             }
-            stage ('H: Deploy to Apache Tomcat'){
+            /*stage ('H: Deploy to Apache Tomcat'){
                 //use an agent 
                 steps {
 
-                    sh "curl http://192.168.18.13:32004/repository/maven-releases/com/libraryportal/rest-api/1.0.${BUILD_NUMBER}/rest-api-1.0.${BUILD_NUMBER}.war -O"
+                    sh(script: "curl http://192.168.18.13:32004/repository/maven-releases/com/libraryportal/rest-api/1.0.${BUILD_NUMBER}/rest-api-1.0.${BUILD_NUMBER}.war -O")
 
-                    deploy adapters: [tomcat9: (url: 'http://192.168.18.13:32009', credentialsId: 'tomcat-credential'), path: 'restapi'], war: "rest-api-1.0.${BUILD_NUMBER}.war", contextPath: 'restapi'
+                    deploy(adapters: [tomcat9: (url: 'http://192.168.18.13:32009', credentialsId: 'tomcat-credential'), path: 'restapi'], war: "rest-api-1.0.${BUILD_NUMBER}.war", contextPath: 'restapi')
                 }
-            }
+            }*/
 
             
         }
