@@ -106,7 +106,7 @@ pipeline {
                 steps {
                     sh(script: "${mavenHome}/bin/mvn versions:set -DnewVersion=1.0.${BUILD_NUMBER}", returnStdout: true)
                     // Package the code
-                    sh(script: "${mavenHome}/bin/mvn package -Dspring.profiles.active=dev", returnStdout: true)
+                    sh(script: "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev", returnStdout: true)
                 }
             }
 
@@ -151,19 +151,7 @@ pipeline {
                     //octopusPushBuildInformation additionalArgs: '', commentParser: 'GitHub', overwriteMode: 'FailIfExists', packageId: 'randomquotes', packageVersion: "1.0.${BUILD_NUMBER}", serverId: "${ServerId}", spaceId: "${SpaceId}", toolId: 'Default', verboseLogging: false, gitUrl: "${GIT_URL}", gitCommit: "${GIT_COMMIT}"
                     //octopusCreateRelease additionalArgs: '', cancelOnTimeout: false, channel: '', defaultPackageVersion: '', deployThisRelease: false, deploymentTimeout: '', environment: "${EnvironmentName}", jenkinsUrlLinkback: false, project: "${ProjectName}", releaseNotes: false, releaseNotesFile: '', releaseVersion: "1.0.${BUILD_NUMBER}", serverId: "${ServerId}", spaceId: "${SpaceId}", tenant: '', tenantTag: '', toolId: 'Default', verboseLogging: false, waitForDeployment: false
                     //octopusDeployRelease cancelOnTimeout: false, deploymentTimeout: '', environment: "${EnvironmentName}", project: "${ProjectName}", releaseVersion: "1.0.${BUILD_NUMBER}", serverId: "${ServerId}", spaceId: "${SpaceId}", tenant: '', tenantTag: '', toolId: 'Default', variables: '', verboseLogging: false, waitForDeployment: true
-
                 }
             }
-            /*stage ('H: Deploy to Apache Tomcat'){
-                //use an agent 
-                steps {
-
-                    sh(script: "curl http://192.168.18.13:32004/repository/maven-releases/com/libraryportal/rest-api/1.0.${BUILD_NUMBER}/rest-api-1.0.${BUILD_NUMBER}.war -O")
-
-                    deploy(adapters: [tomcat9: (url: 'http://192.168.18.13:32009', credentialsId: 'tomcat-credential'), path: 'restapi'], war: "rest-api-1.0.${BUILD_NUMBER}.war", contextPath: 'restapi')
-                }
-            }*/
-
-            
         }
 }
