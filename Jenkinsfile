@@ -106,7 +106,7 @@ pipeline {
                 steps {
                     sh(script: "${mavenHome}/bin/mvn versions:set -DnewVersion=1.0.${BUILD_NUMBER}", returnStdout: true)
                     // Package the code
-                    sh(script: "${mavenHome}/bin/mvn clean install -Dspring.profiles.active=dev", returnStdout: true)
+                    sh(script: "${mavenHome}/bin/mvn package -Dspring.profiles.active=dev", returnStdout: true)
                 }
             }
 
