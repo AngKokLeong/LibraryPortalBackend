@@ -34,7 +34,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/books/**").permitAll());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/reviews/**").permitAll());
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/checkouts/**").permitAll());
-
+        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/histories/**").permitAll());
 
         http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/books/secure/**").authenticated())
             .oauth2ResourceServer((oauth2) -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
