@@ -19,9 +19,12 @@ public class Message {
     private Integer id;
 
     @Column(name="user_email")
-    private String title;
+    private String userEmail;
 
     @Column(name="title")
+    private String title;
+
+    @Column(name="question")
     private String question;
 
     @Column(name="admin_email")
