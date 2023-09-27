@@ -17,6 +17,7 @@ jobs:
         # Provide the password for postgres
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: reactlibrarydatabase
         # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
@@ -40,7 +41,7 @@ jobs:
         # Disabling shallow clone is recommended for improving relevancy of reporting
         fetch-depth: 0
     - name: Setup Database
-      run: mvn test -Dtest="DatabaseSetup"
+      run: psql -U postgres -d reactlibrarydatabase -f ../sql_script/reactlibrarydatabase_sql_1.sql
       env:
           # The hostname used to communicate with the PostgreSQL service container
           POSTGRES_HOST: localhost
