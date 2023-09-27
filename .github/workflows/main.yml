@@ -42,7 +42,7 @@ jobs:
         # Disabling shallow clone is recommended for improving relevancy of reporting
         fetch-depth: 0
     - name: Setup Database
-      run: psql -h localhost -U postgres -d reactlibrarydatabase -f ./sql_script/reactlibrarydatabase_sql_1.sql
+      run: psql postgresql://postgres:postgres@localhost:5432/reactlibrarydatabase -f ./sql_script/reactlibrarydatabase_sql_1.sql
       env:
           # The hostname used to communicate with the PostgreSQL service container
           POSTGRES_HOST: localhost
