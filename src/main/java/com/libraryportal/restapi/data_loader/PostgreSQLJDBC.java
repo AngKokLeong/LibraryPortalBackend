@@ -25,6 +25,7 @@ public class PostgreSQLJDBC {
             " SALARY         REAL)";
 
          ArrayList<String> sql_array_list = new ArrayList<String>();
+         sql_array_list.add("CREATE DATABASE reactlibrarydatabase");
          sql_array_list.add("DROP TABLE IF EXISTS review");
          sql_array_list.add("CREATE TABLE review (id SERIAL PRIMARY KEY , user_email varchar(45) DEFAULT NULL, date timestamp, rating numeric (3,2) DEFAULT NULL, book_id int, review_description text DEFAULT NULL)");
          sql_array_list.add("DROP TABLE IF EXISTS checkout");
