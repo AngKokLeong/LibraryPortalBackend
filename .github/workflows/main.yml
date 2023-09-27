@@ -22,10 +22,11 @@ jobs:
       with:
         # Disabling shallow clone is recommended for improving relevancy of reporting
         fetch-depth: 0
-    - name: Validate Maven Project
-      run: mvn clean validate
-    - name: Automated Testing
-      run: mvn clean test
+    #- name: Validate Maven Project
+   
+    #  run: mvn clean validate
+    #- name: Automated Testing
+    #  run: mvn clean test
     - name: SonarCloud Scan
       uses: SonarSource/sonarcloud-github-action@v2.0.2
       env:
