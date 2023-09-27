@@ -30,6 +30,9 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.language>java</sonar.language>
 
+		<sonar.organization>angkokleong</sonar.organization>
+  		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
 	</properties>
 	<dependencies>
 		<dependency>
