@@ -1,9 +1,7 @@
-name: Library Portal Backend GitHub Actions
+name: Library Portal Backend Push
 
 on:
   push:
-    branches: [ "develop" ]
-  pull_request:
     branches: [ "develop" ]
 
 jobs:
