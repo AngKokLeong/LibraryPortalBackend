@@ -41,6 +41,11 @@ jobs:
         fetch-depth: 0
     - name: Setup Database
       run: mvn test -Dtest="DatabaseSetup"
+      env:
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: localhost
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
     #- name: Validate Maven Project
    
     #  run: mvn clean validate
@@ -70,6 +75,11 @@ jobs:
       run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=AngKokLeong_LibraryPortalBackend      
     - name: Build with Maven
       run: mvn -B package --file pom.xml
+      env:
+          # The hostname used to communicate with the PostgreSQL service container
+          POSTGRES_HOST: localhost
+          # The default PostgreSQL port
+          POSTGRES_PORT: 5432
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive
     - name: Update dependency graph
