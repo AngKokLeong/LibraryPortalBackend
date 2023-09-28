@@ -34,7 +34,7 @@ public class Message {
     private String response;
 
     @Column(name="closed")
-    private boolean closed;
+    private Integer closed;
 
     public Message() {}
 

@@ -4,7 +4,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.accept.ContentNegotiationStrategy;
 import org.springframework.web.accept.HeaderContentNegotiationStrategy;
@@ -31,16 +30,19 @@ public class SecurityConfiguration {
         //disable cross site request forgery
         http.csrf(csrf -> csrf.disable());
 
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/books/**").permitAll());
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/reviews/**").permitAll());
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/checkouts/**").permitAll());
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/histories/**").permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/books/**").permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/reviews/**").permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/checkouts/**").permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/histories/**").permitAll());
 
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/books/secure/**").authenticated())
-            .oauth2ResourceServer((oauth2) -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/books/secure/**").authenticated())
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
 
-        http.authorizeHttpRequests((authorize) -> authorize.requestMatchers("/api/reviews/secure/**").authenticated())
-            .oauth2ResourceServer((oauth2) -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/reviews/secure/**").authenticated())
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
+        
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/messages/secure/**").authenticated())
+            .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
 
         
         //add CORS filters
