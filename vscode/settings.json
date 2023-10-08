@@ -1,0 +1,8 @@
+{
+    "java.compile.nullAnalysis.mode": "automatic",
+    "sonarlint.connectedMode.project": {
+        "connectionId": "http-192-168-18-13-32001",
+        "projectKey": "Library-Portal-Backend"
+    },
+    "java.configuration.updateBuildConfiguration": "interactive"
+}
