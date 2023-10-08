@@ -10,5 +10,5 @@ import com.libraryportal.restapi.entity.Message;
 public interface MessageRepository extends JpaRepository<Message, Integer>{
     Page<Message> findByUserEmail(@RequestParam("user_email") String userEmail, Pageable pageable);
 
-    Page<Message> findByClosed(@RequestParam("closed") boolean closed, Pageable pageable);
+    Page<Message> findByClosed(@RequestParam("closed") Integer closed, Pageable pageable);
 }
