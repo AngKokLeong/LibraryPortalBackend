@@ -1,6 +1,5 @@
 package com.libraryportal.restapi.dao;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
