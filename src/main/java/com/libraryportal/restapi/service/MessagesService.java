@@ -1,6 +1,9 @@
 package com.libraryportal.restapi.service;
 
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,4 +28,15 @@ public class MessagesService {
         messageRepository.save(message);
     }
 
+    public void putMessage(Message adminQuestionRequest, String userEmail) throws Exception{
+        Optional<Message> message = messageRepository.findById(adminQuestionRequest.getId());
+        if (!message.isPresent()){
+            throw new Exception("Message not found");
+        }
+
+        message.get().setAdminEmail(userEmail);
+        message.get().setResponse(adminQuestionRequest.getResponse());
+        message.get().setClosed(true);
+        messageRepository.save(message.get());
+    }
 }
