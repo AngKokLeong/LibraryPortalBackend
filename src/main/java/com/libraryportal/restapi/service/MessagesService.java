@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.libraryportal.restapi.dao.MessageRepository;
 import com.libraryportal.restapi.entity.Message;
+import com.libraryportal.restapi.requestmodels.AdminQuestionRequest;
 
 
 @Service
@@ -28,7 +29,7 @@ public class MessagesService {
         messageRepository.save(message);
     }
 
-    public void putMessage(Message adminQuestionRequest, String userEmail) throws Exception{
+    public void putMessage(AdminQuestionRequest adminQuestionRequest, String userEmail) throws Exception{
         Optional<Message> message = messageRepository.findById(adminQuestionRequest.getId());
         if (!message.isPresent()){
             throw new Exception("Message not found");
