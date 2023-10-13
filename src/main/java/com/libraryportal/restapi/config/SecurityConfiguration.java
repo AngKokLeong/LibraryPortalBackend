@@ -30,19 +30,20 @@ public class SecurityConfiguration {
         //disable cross site request forgery
         http.csrf(csrf -> csrf.disable());
 
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/books/**").permitAll());
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/reviews/**").permitAll());
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/checkouts/**").permitAll());
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/histories/**").permitAll());
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/messages/**").permitAll());
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers(
+            "/api/books/**", 
+                        "/api/reviews/**",
+                        "/api/checkouts/**",
+                        "/api/histories/**",
+                        "/api/messages/**"
+        ).permitAll());
 
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/books/secure/**").authenticated())
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
-
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/reviews/secure/**").authenticated())
-            .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
-        
-        http.authorizeHttpRequests(authorize -> authorize.requestMatchers("/api/messages/secure/**").authenticated())
+        http.authorizeHttpRequests(authorize -> authorize.requestMatchers(
+            "/api/books/secure/**", 
+                        "/api/reviews/secure/**", 
+                        "/api/messages/secure/**",
+                        "/api/admin/secure/**"
+            ).authenticated())
             .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
 
         
