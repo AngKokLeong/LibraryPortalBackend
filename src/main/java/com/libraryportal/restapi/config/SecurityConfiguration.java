@@ -41,7 +41,8 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(authorize -> authorize.requestMatchers(
             "/api/books/secure/**", 
                         "/api/reviews/secure/**", 
-                        "/api/messages/secure/**"
+                        "/api/messages/secure/**",
+                        "/api/admin/secure/**"
             ).authenticated())
             .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
 
