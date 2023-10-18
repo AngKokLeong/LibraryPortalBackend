@@ -1,5 +1,7 @@
 package com.libraryportal.restapi.service;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +34,18 @@ public class AdminService {
         
         bookRepository.save(book);
 
+    }
+
+    public void increaseBookQuantity(Integer bookId) throws Exception{
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if (!book.isPresent()){
+            throw new Exception("Book not found");
+        }
+
+        book.get().setCopiesAvailable(book.get().getCopiesAvailable() + 1);
+        book.get().setCopies(book.get().getCopies() + 1);
+
+        bookRepository.save(book.get());
     }
 }
