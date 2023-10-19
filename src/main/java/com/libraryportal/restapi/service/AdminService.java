@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.libraryportal.restapi.dao.BookRepository;
+import com.libraryportal.restapi.dao.CheckoutRepository;
+import com.libraryportal.restapi.dao.ReviewRepository;
 import com.libraryportal.restapi.entity.Book;
 import com.libraryportal.restapi.requestmodels.AddBookRequest;
 
@@ -15,10 +17,15 @@ import jakarta.transaction.Transactional;
 @Transactional
 public class AdminService {
     private BookRepository bookRepository;
-    
+    private ReviewRepository reviewRepository;
+    private CheckoutRepository checkoutRepository;
+
+
     @Autowired
-    public AdminService(BookRepository bookRepository){
+    public AdminService(BookRepository bookRepository, ReviewRepository reviewRepository, CheckoutRepository checkoutRepository){
         this.bookRepository = bookRepository;
+        this.reviewRepository = reviewRepository;
+        this.checkoutRepository = checkoutRepository;
     }
 
     public void postBook(AddBookRequest addBookRequest){
@@ -61,4 +68,18 @@ public class AdminService {
 
         bookRepository.save(book.get());
     }
+
+    public void deleteBook(Integer bookId) throws Exception {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if(!book.isPresent()){
+            throw new Exception("Book not found");
+        }
+
+        reviewRepository.deleteAllByBookId(book.get().getId());
+        checkoutRepository.deleteAllByBookId(book.get().getId());
+        bookRepository.delete(book.get());
+    }
+
+
 }
