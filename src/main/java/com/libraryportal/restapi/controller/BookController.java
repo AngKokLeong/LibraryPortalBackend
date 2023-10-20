@@ -17,7 +17,7 @@ import com.libraryportal.restapi.responsemodels.ShelfCurrentLoansResponse;
 import com.libraryportal.restapi.service.BookService;
 import com.libraryportal.restapi.utils.ExtractJWT;
 
-@CrossOrigin(origins={"http://localhost:3000"}, allowCredentials = "true", allowedHeaders = {"Authorization", "Origin", "Content-Type"} )
+@CrossOrigin(origins={"https://localhost:3000"}, allowCredentials = "true", allowedHeaders = {"Authorization", "Origin", "Content-Type"} )
 @RestController
 @RequestMapping("/api/books")
 public class BookController {

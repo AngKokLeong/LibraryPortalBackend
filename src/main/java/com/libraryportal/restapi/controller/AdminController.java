@@ -15,7 +15,7 @@ import com.libraryportal.restapi.requestmodels.AddBookRequest;
 import com.libraryportal.restapi.service.AdminService;
 import com.libraryportal.restapi.utils.ExtractJWT;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {

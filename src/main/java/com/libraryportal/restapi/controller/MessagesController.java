@@ -14,7 +14,7 @@ import com.libraryportal.restapi.requestmodels.AdminQuestionRequest;
 import com.libraryportal.restapi.service.MessagesService;
 import com.libraryportal.restapi.utils.ExtractJWT;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/messages")
 public class MessagesController {
