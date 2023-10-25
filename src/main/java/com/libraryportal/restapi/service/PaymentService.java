@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import com.libraryportal.restapi.dao.PaymentRepository;
 import com.libraryportal.restapi.requestmodels.PaymentInformationRequest;
 import com.stripe.Stripe;
+import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 
 import jakarta.transaction.Transactional;
@@ -28,7 +29,7 @@ public class PaymentService {
         Stripe.apiKey = secretKey;
     } 
 
-    public PaymentIntent createPaymentIntent(PaymentInformationRequest paymentInformationRequest) throws Exception{
+    public PaymentIntent createPaymentIntent(PaymentInformationRequest paymentInformationRequest) throws StripeException{
         List<String> paymentMethodTypes = new ArrayList<>();
         paymentMethodTypes.add("card");
 
