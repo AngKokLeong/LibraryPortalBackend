@@ -5,12 +5,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.libraryportal.restapi.requestmodels.PaymentInformationRequest;
 import com.libraryportal.restapi.service.PaymentService;
+import com.libraryportal.restapi.utils.ExtractJWT;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 
@@ -35,4 +38,17 @@ public class PaymentController {
 
         return new ResponseEntity<>(paymentIntentJsonString, HttpStatus.OK);
     }
+
+    @PutMapping("/payment-complete")
+    public ResponseEntity<String> stripePaymentComplete(@RequestHeader(value="Authorization") String token) throws Exception{
+
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
+
+        if (userEmail == null){
+            throw new Exception("User Email is missing");
+        }
+
+        return paymentService.stripePayment(userEmail);
+    }
+
 }
