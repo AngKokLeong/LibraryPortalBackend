@@ -1,5 +1,6 @@
 package com.libraryportal.restapi.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +15,11 @@ public class PaymentService {
     
     private PaymentRepository paymentRepository;
 
-
+    @Autowired
     public PaymentService(PaymentRepository paymentRepository, @Value("${stripe.secret.key}") String secretKey){
         this.paymentRepository = paymentRepository;
         Stripe.apiKey = secretKey;
     } 
+
+
 }
