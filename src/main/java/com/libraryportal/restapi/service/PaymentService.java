@@ -1,11 +1,18 @@
 package com.libraryportal.restapi.service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.libraryportal.restapi.dao.PaymentRepository;
+import com.libraryportal.restapi.requestmodels.PaymentInformationRequest;
 import com.stripe.Stripe;
+import com.stripe.model.PaymentIntent;
 
 import jakarta.transaction.Transactional;
 
@@ -21,5 +28,17 @@ public class PaymentService {
         Stripe.apiKey = secretKey;
     } 
 
+    public PaymentIntent createPaymentIntent(PaymentInformationRequest paymentInformationRequest) throws Exception{
+        List<String> paymentMethodTypes = new ArrayList<>();
+        paymentMethodTypes.add("card");
+
+        Map<String, Object> params = new HashMap<>();
+
+        params.put("amount", paymentInformationRequest.getAmount());
+        params.put("currency", paymentInformationRequest.getCurrency());
+        params.put("payment_method", paymentMethodTypes);
+
+        return PaymentIntent.create(params);
+    }
 
 }
