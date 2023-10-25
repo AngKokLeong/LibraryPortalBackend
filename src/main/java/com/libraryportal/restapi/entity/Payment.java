@@ -19,7 +19,7 @@ public class Payment {
     private Integer id;
 
     @Column(name="user_email")
-    private String email;
+    private String userEmail;
 
     @Column(name="amount")
     private double amount;
