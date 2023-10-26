@@ -154,6 +154,22 @@ public class BookService {
         book.get().setCopiesAvailable(book.get().getCopiesAvailable() + 1);
         bookRepository.save(book.get());
 
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        
+        Date currentBookCheckoutReturnDate = sdf.parse(validateCheckout.getCheckoutDate());
+        Date currentDate = sdf.parse(LocalDate.now().toString());
+
+        TimeUnit time = TimeUnit.DAYS;
+
+        double differenceInTime = time.convert(currentBookCheckoutReturnDate.getTime() - currentDate.getTime(), TimeUnit.MILLISECONDS);
+
+        if (differenceInTime < 0){
+            Payment payment = paymentRepository.findByUserEmail(userEmail);
+
+            payment.setAmount(payment.getAmount() + (differenceInTime * -1));
+            paymentRepository.save(payment);
+        }
+
         checkoutRepository.deleteById(validateCheckout.getId());
 
         History history = new History(userEmail, 
