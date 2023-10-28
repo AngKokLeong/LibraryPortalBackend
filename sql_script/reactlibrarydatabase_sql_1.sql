@@ -88,7 +88,7 @@ CREATE TABLE history (
   title varchar(45) DEFAULT NULL,
   author varchar(45) DEFAULT NULL,
   description text DEFAULT NULL,
-  img bytea
+  img text  DEFAULT NULL
 );
 /*!40101 SET character_set_client = @saved_cs_client */;
 
