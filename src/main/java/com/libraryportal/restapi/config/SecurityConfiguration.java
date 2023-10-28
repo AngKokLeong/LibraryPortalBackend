@@ -35,14 +35,16 @@ public class SecurityConfiguration {
                         "/api/reviews/**",
                         "/api/checkouts/**",
                         "/api/histories/**",
-                        "/api/messages/**"
+                        "/api/messages/**",
+                        "/api/payments/**"
         ).permitAll());
 
         http.authorizeHttpRequests(authorize -> authorize.requestMatchers(
             "/api/books/secure/**", 
                         "/api/reviews/secure/**", 
                         "/api/messages/secure/**",
-                        "/api/admin/secure/**"
+                        "/api/admin/secure/**",
+                        "/api/payment/secure/**"
             ).authenticated())
             .oauth2ResourceServer(oauth2 -> oauth2.jwt((jwt) -> jwt.decoder(jwtDecoder())));
 
